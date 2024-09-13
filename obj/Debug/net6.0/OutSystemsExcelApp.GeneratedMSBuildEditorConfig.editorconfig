@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = OutSystemsExcelApp
-build_property.ProjectDir = /Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/
+build_property.ProjectDir = /Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/

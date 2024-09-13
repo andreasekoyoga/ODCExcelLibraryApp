@@ -1,101 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/OutSystemsExcelApp.csproj": {}
+    "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/OutSystemsExcelApp.csproj": {}
   },
   "projects": {
-    "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/OutSystemsExcelApp.csproj": {
+    "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/OutSystemsExcelLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/OutSystemsExcelApp.csproj",
-        "projectName": "OutSystemsExcelApp",
-        "projectPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/OutSystemsExcelApp.csproj",
-        "packagesPath": "/Users/andreasekoyoga/.nuget/packages/",
-        "outputPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/obj/",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "/Users/andreasekoyoga/.nuget/NuGet/NuGet.Config"
-        ],
-        "originalTargetFrameworks": [
-          "net6.0"
-        ],
-        "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
-            "projectReferences": {
-              "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj": {
-                "projectPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
-          "dependencies": {
-            "MessagePack": {
-              "target": "Package",
-              "version": "[2.5.108, )"
-            },
-            "Microsoft.Data.Sqlite": {
-              "target": "Package",
-              "version": "[7.0.5, )"
-            },
-            "NetJSON": {
-              "target": "Package",
-              "version": "[1.4.3, )"
-            },
-            "SpanJson": {
-              "target": "Package",
-              "version": "[4.0.0, )"
-            },
-            "Utf8Json": {
-              "target": "Package",
-              "version": "[1.3.7, )"
-            },
-            "Utf8Json.ImmutableCollection": {
-              "target": "Package",
-              "version": "[1.3.7, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.307/RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj",
+        "projectUniqueName": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/OutSystemsExcelLibrary.csproj",
         "projectName": "OutSystemsExcelLibrary",
-        "projectPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj",
+        "projectPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/OutSystemsExcelLibrary.csproj",
         "packagesPath": "/Users/andreasekoyoga/.nuget/packages/",
-        "outputPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/obj/",
+        "outputPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/andreasekoyoga/.nuget/NuGet/NuGet.Config"
@@ -134,6 +50,90 @@
             "OutSystems.ExternalLibraries.SDK": {
               "target": "Package",
               "version": "[1.3.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.307/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/OutSystemsExcelApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/OutSystemsExcelApp.csproj",
+        "projectName": "OutSystemsExcelApp",
+        "projectPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/OutSystemsExcelApp.csproj",
+        "packagesPath": "/Users/andreasekoyoga/.nuget/packages/",
+        "outputPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/andreasekoyoga/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/OutSystemsExcelLibrary.csproj": {
+                "projectPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/OutSystemsExcelLibrary.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "MessagePack": {
+              "target": "Package",
+              "version": "[2.5.108, )"
+            },
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "NetJSON": {
+              "target": "Package",
+              "version": "[1.4.3, )"
+            },
+            "SpanJson": {
+              "target": "Package",
+              "version": "[4.0.0, )"
+            },
+            "Utf8Json": {
+              "target": "Package",
+              "version": "[1.3.7, )"
+            },
+            "Utf8Json.ImmutableCollection": {
+              "target": "Package",
+              "version": "[1.3.7, )"
             }
           },
           "imports": [

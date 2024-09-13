@@ -2790,8 +2790,8 @@
     },
     "OutSystemsExcelLibrary/1.0.0": {
       "type": "project",
-      "path": "../OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj",
-      "msbuildProject": "../OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj"
+      "path": "../ODCExcelLibrary/OutSystemsExcelLibrary.csproj",
+      "msbuildProject": "../ODCExcelLibrary/OutSystemsExcelLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -2811,11 +2811,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/OutSystemsExcelApp.csproj",
+      "projectUniqueName": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/OutSystemsExcelApp.csproj",
       "projectName": "OutSystemsExcelApp",
-      "projectPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/OutSystemsExcelApp.csproj",
+      "projectPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/OutSystemsExcelApp.csproj",
       "packagesPath": "/Users/andreasekoyoga/.nuget/packages/",
-      "outputPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelApp/obj/",
+      "outputPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibraryApp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/andreasekoyoga/.nuget/NuGet/NuGet.Config"
@@ -2831,8 +2831,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj": {
-              "projectPath": "/Users/andreasekoyoga/Documents/Net Code/OutSystemsExcel/OutSystemsExcelLibrary/OutSystemsExcelLibrary.csproj"
+            "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/OutSystemsExcelLibrary.csproj": {
+              "projectPath": "/Users/andreasekoyoga/Documents/Net Code/ODCExcelLib/ODCExcelLibrary/OutSystemsExcelLibrary.csproj"
             }
           }
         }
