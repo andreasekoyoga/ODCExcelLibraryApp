@@ -436,6 +436,34 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestFormulaDemo.xlsx", tmpExcelName);
     }
 
+    public void formulaValue2() {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/DemoExcelV.xlsx");
+        
+        CellFormat cellFormat = new CellFormat();
+        cellFormat.CellTypeFormat = "#,##0";
+        cellFormat.CellType = "Formula";
+
+        CellWrite cellWrite = new CellWrite();
+        cellWrite.CellName = "C2";
+        cellWrite.CellValue = "=IF(A2=\"\",0,VLOOKUP(A2,'Products'!$A$2:$D$11,4,FALSE))";
+        cellWrite.CellFormat = cellFormat;
+
+        CellWrite[] cellWrites = new CellWrite[1];
+        cellWrites[0] = cellWrite;  
+
+        //CellCopy cellCopy = new CellCopy();
+        tmpExcelName = ex.Cell_Write(tmpExcelName, cellWrites);
+
+        // cellCopy.SourceCellName = "A2:D2";
+        // cellCopy.DestinationCellName = "A3:A10";
+
+        // tmpExcelName = ex.Cell_Copy(tmpExcelName, cellCopy);
+
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestFormulaDemo2.xlsx", tmpExcelName);
+    }
+
+
     public void FindCell() {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/FormulaDemo.xlsx");
@@ -840,7 +868,7 @@ class ExcelTest {
     public void CellRange_ReadTest() {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/ReadExcelDemo.xlsx");
-        CellRange_Read[] cellRange_Read = new CellRange_Read[2];
+        RangeCellRead[] cellRange_Read = new RangeCellRead[2];
         CellRange cellRange1 = new CellRange();
 
         cellRange1.StartCellRow = 5;
@@ -860,9 +888,9 @@ class ExcelTest {
         cellRange_Read[1].CellRange = cellRange2;
 
 
-        CellValue[] cellValues = ex.CellRange_Read(tmpExcelName, cellRange_Read);
+        RangeCellValue[] cellValues = ex.Range_CellRead(tmpExcelName, cellRange_Read);
 
-        foreach (CellValue cellValue in cellValues) {
+        foreach (RangeCellValue cellValue in cellValues) {
             Console.WriteLine("Row: " + cellValue.CellRow + " Col: " + cellValue.CellColumn +" Cell: " + cellValue.CellName + " Value: " + cellValue.Value);
         }
 
@@ -883,6 +911,7 @@ class Program
         //excelTest.ListDataValidation3();
         //excelTest.ReadVasialis();
         //excelTest.CellWritesRich();
-        excelTest.CellRange_ReadTest();
+        //excelTest.CellRange_ReadTest();
+        excelTest.formulaValue2();
     }
 }
