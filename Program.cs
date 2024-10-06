@@ -897,6 +897,31 @@ class ExcelTest {
 
     }
 
+    public void CellRange_ReadTes2() {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/TestRageRead.xlsx");
+        RangeCellRead[] cellRange_Read = new RangeCellRead[1];
+        CellRange cellRange1 = new CellRange();
+
+        cellRange1.StartCellRow = 1;
+        cellRange1.StartCellColumn = 2;
+        cellRange1.EndCellRow = 15;
+        cellRange1.EndCellColumn = 5;
+
+        cellRange_Read[0].CellRange = cellRange1;
+
+        RangeCellValue[] cellValues = ex.Range_CellRead(tmpExcelName, cellRange_Read);
+
+        Console.WriteLine("Count: " + cellValues.Length);
+
+        foreach (RangeCellValue cellValue in cellValues) {
+            Console.WriteLine("Row: " + cellValue.CellRow + " Col: " + cellValue.CellColumn +" Cell: " + cellValue.CellName + " Value: " + cellValue.Value);
+        }
+
+
+    }
+
+
 }
 
 
@@ -912,6 +937,7 @@ class Program
         //excelTest.ReadVasialis();
         //excelTest.CellWritesRich();
         //excelTest.CellRange_ReadTest();
-        excelTest.formulaValue2();
+        //excelTest.formulaValue2();
+        excelTest.CellRange_ReadTes2();
     }
 }
