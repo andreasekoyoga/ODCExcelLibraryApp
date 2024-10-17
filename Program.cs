@@ -7,6 +7,7 @@ using Microsoft.Data.Sqlite;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing;
+using System.Text.RegularExpressions;
 
 class ExcelTest {
 
@@ -23,6 +24,24 @@ class ExcelTest {
     }
 
     return new string(chars);
+    }
+
+    public int columnNumber(String columnName)
+    {
+        char[] chars = columnName.ToUpper().ToCharArray();
+
+        return (int)(Math.Pow(26, chars.Count() - 1)) * 
+            (System.Convert.ToInt32(chars[0]) - 64) + 
+            ((chars.Count() > 2) ? columnNumber(columnName.Substring(1, columnName.Length - 1)) : 
+            ((chars.Count() == 2) ? (System.Convert.ToInt32(chars[chars.Count() - 1]) - 64) : 0));
+    }
+
+    public string[] SplitRegex(string inputStr) {
+        string pattern = @"^([a-zA-Z]+)([0-9]+)$";
+        Regex rgx = new Regex(pattern);
+        //string input = "A4";
+        string[] result = rgx.Split(inputStr).Where(s => s != String.Empty).ToArray<string>();
+        return result;       
     }
 
     public void CreateSheet() {
@@ -908,7 +927,8 @@ class ExcelTest {
         cellRange1.EndCellRow = 15;
         cellRange1.EndCellColumn = 5;
 
-        cellRange_Read[0].CellRange = cellRange1;
+        // cellRange_Read[0].CellRange = cellRange1;
+        cellRange_Read[0].CellName = "A1:B1000000";
 
         RangeCellValue[] cellValues = ex.Range_CellRead(tmpExcelName, cellRange_Read);
 
