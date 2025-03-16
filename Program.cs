@@ -802,6 +802,36 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestListValidationDemo3.xlsx", excelFile); 
     }    
 
+    public void RangeFormatBDateCNumber() {
+        byte[] excelFile = CreateExcel();
+        ExcelLibrary ex = new ExcelLibrary();
+
+        CellFormat cellFormatDate = new CellFormat();
+        cellFormatDate.CellType = "DateTime";
+        cellFormatDate.CellTypeFormat = "dd.MM.yyyy";
+
+        CellFormat cellFormatNumber = new CellFormat();
+        cellFormatNumber.CellType = "Number";
+        cellFormatNumber.CellTypeFormat = "#,##0";
+
+        RangeFormat rangeFormatDate = new RangeFormat();
+        rangeFormatDate.CellName = "B:B";
+        rangeFormatDate.CellFormat = cellFormatDate;
+
+        RangeFormat rangeFormatNumber = new RangeFormat();
+        rangeFormatNumber.CellName = "C";
+        rangeFormatNumber.CellFormat = cellFormatNumber;
+
+
+        RangeFormat[] rangeFormats = new RangeFormat[2];
+        rangeFormats[0] = rangeFormatDate;
+        rangeFormats[1] = rangeFormatNumber;
+
+        excelFile = ex.Range_Format(excelFile, rangeFormats);
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestRangeFormat.xlsx", excelFile); 
+    
+    }
+
     public void CellWrites() {
         byte[] excelFile = CreateExcel();
         ExcelLibrary ex = new ExcelLibrary();
@@ -941,6 +971,20 @@ class ExcelTest {
 
     }
 
+    public void MergeExcelTest() {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] M1 = System.IO.File.ReadAllBytes("ExcelTest/Merge1.xlsx");
+        byte[] M2 = System.IO.File.ReadAllBytes("ExcelTest/Merge2.xlsx");
+        byte[] M3 = System.IO.File.ReadAllBytes("ExcelTest/Merge3.xlsx");
+
+        ExcelMerge[] excelMerges = new ExcelMerge[3];
+        excelMerges[0].ExcelBinary = M1;
+        excelMerges[1].ExcelBinary = M2;
+        excelMerges[2].ExcelBinary = M3;
+        
+        byte[] excelFile = ex.Excel_Merge(excelMerges);
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/MergeResult.xlsx", excelFile); 
+    }
 
 }
 
@@ -958,6 +1002,8 @@ class Program
         //excelTest.CellWritesRich();
         //excelTest.CellRange_ReadTest();
         //excelTest.formulaValue2();
-        excelTest.CellRange_ReadTes2();
+        //excelTest.CellRange_ReadTes2();
+        excelTest.MergeExcelTest();
+        excelTest.RangeFormatBDateCNumber();
     }
 }
