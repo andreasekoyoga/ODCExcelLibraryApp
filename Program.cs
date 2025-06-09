@@ -8,43 +8,47 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing;
 using System.Text.RegularExpressions;
+using OutSystems.ExternalLib.Excel;
 
-class ExcelTest {
+class ExcelTest
+{
 
 
     static Random rd = new Random();
     internal static string CreateString(int stringLength)
     {
-    const string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
-    char[] chars = new char[stringLength];
+        const string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
+        char[] chars = new char[stringLength];
 
-    for (int i = 0; i < stringLength; i++)
-    {
-        chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
-    }
+        for (int i = 0; i < stringLength; i++)
+        {
+            chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+        }
 
-    return new string(chars);
+        return new string(chars);
     }
 
     public int columnNumber(String columnName)
     {
         char[] chars = columnName.ToUpper().ToCharArray();
 
-        return (int)(Math.Pow(26, chars.Count() - 1)) * 
-            (System.Convert.ToInt32(chars[0]) - 64) + 
-            ((chars.Count() > 2) ? columnNumber(columnName.Substring(1, columnName.Length - 1)) : 
+        return (int)(Math.Pow(26, chars.Count() - 1)) *
+            (System.Convert.ToInt32(chars[0]) - 64) +
+            ((chars.Count() > 2) ? columnNumber(columnName.Substring(1, columnName.Length - 1)) :
             ((chars.Count() == 2) ? (System.Convert.ToInt32(chars[chars.Count() - 1]) - 64) : 0));
     }
 
-    public string[] SplitRegex(string inputStr) {
+    public string[] SplitRegex(string inputStr)
+    {
         string pattern = @"^([a-zA-Z]+)([0-9]+)$";
         Regex rgx = new Regex(pattern);
         //string input = "A4";
         string[] result = rgx.Split(inputStr).Where(s => s != String.Empty).ToArray<string>();
-        return result;       
+        return result;
     }
 
-    public void CreateSheet() {
+    public void CreateSheet()
+    {
 
         Worksheet[] ws = new Worksheet[2];
         ws[0].Name = "Sheet 2";
@@ -57,37 +61,41 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/TestExcelSheet.xlsx", excelFile);
     }
 
-    public void AddSheet(string newSheet) {
-        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+    public void AddSheet(string newSheet)
+    {
+        ExcelPackage.License.SetNonCommercialOrganization("OutSystems Community");
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("excelLogo.png");
         byte[] excelFile = ex.Worksheet_Add(tmpExcelName, newSheet);
         File.WriteAllBytes($"{Environment.CurrentDirectory}/excelLogo2.png", excelFile);
     }
 
-    public void InsertImage() {
+    public void InsertImage()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] excelFile = ex.Workbook_Create(new Worksheet[0]);
-        
+
         byte[] img1 = System.IO.File.ReadAllBytes("ExcelTest/img1.jpeg");
 
         excelFile = ex.Image_Insert(excelBinary: excelFile, imageFile: img1, cellName: "B1");
-        
+
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestExcelImage.xlsx", excelFile);
     }
 
-    public void InsertImageByName() {
+    public void InsertImageByName()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/TmpExcelImageNameR7.xlsx");
-        
+
         byte[] img3 = System.IO.File.ReadAllBytes("img3.jpeg");
         byte[] excelFile = ex.Image_Insert(excelBinary: tmpExcelName, imageFile: img3, cellName: "Image3");
-        
+
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestExcelImageName.xlsx", excelFile);
     }
 
-    public void ExcelBorderFormat() {
-        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+    public void ExcelBorderFormat()
+    {
+        ExcelPackage.License.SetNonCommercialOrganization("OutSystems Community");
         using (var package = new ExcelPackage())
         {
             var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
@@ -104,7 +112,8 @@ class ExcelTest {
         }
     }
 
-    public void BorderFormat() {
+    public void BorderFormat()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] excelFile = ex.Workbook_Create(new Worksheet[0]);
 
@@ -132,7 +141,7 @@ class ExcelTest {
 
         rangeBorderFormats[0].borderStyleFormat = borderStyleFormatThin;
         rangeBorderFormats[0].CellName = "B2:G10";
-      
+
         rangeBorderFormats[1].borderStyleFormat = borderStyleFormatThick;
         rangeBorderFormats[1].CellName = "I6:N6";
 
@@ -140,12 +149,13 @@ class ExcelTest {
         rangeBorderFormats[2].CellName = "B30";
 
         excelFile = ex.Range_BorderFormat(excelBinary: excelFile, rangeBorderFormats: rangeBorderFormats);
-        
+
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Resuklt/TestExcelBorder.xlsx", excelFile);
     }
 
-    public void Filter() {
-        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+    public void Filter()
+    {
+        ExcelPackage.License.SetNonCommercialOrganization("OutSystems Community");
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("TestFilter.xlsx");
         using (var package = ex.Excel_Open(tmpExcelName))
@@ -163,7 +173,8 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/TestFilter.xlsx", tmpExcelName);
     }
 
-    public void LineChartAsync() {
+    public void LineChartAsync()
+    {
         string connectionStr = "Data Source=EPPlusSample.sqlite;";
         ExcelLibrary ex = new ExcelLibrary();
         byte[] excelFile = ex.Workbook_Create(new Worksheet[0]);
@@ -261,34 +272,37 @@ class ExcelTest {
             //Set the style using the Excel ChartStyle number. The chart style must exist in the ExcelChartStyleManager.StyleLibrary[]. 
             //Styles can be added and removed from this library. By default it is loaded with the styles for EPPlus supported chart types.
             chart.StyleManager.SetChartStyle(237);
-            range.AutoFitColumns(0);            
+            range.AutoFitColumns(0);
 
             excelFile = package.GetAsByteArray();
         }
 
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/TestChart.xlsx", excelFile);    
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/TestChart.xlsx", excelFile);
     }
 
-    public void InsertRow() {
+    public void InsertRow()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/TableDemo.xlsx");
         tmpExcelName = ex.Row_Insert(tmpExcelName, 1, 1, 30);
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestTableDemo.xlsx", tmpExcelName);
     }
-    public void InsertColumn() {
+    public void InsertColumn()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/TableDemo2.xlsx");
         tmpExcelName = ex.Column_Insert(tmpExcelName, 3, 3, 100, true);
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestTableDemo2.xlsx", tmpExcelName);
     }
 
-    public void FormatNumber() {
+    public void FormatNumber()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/RangeFormatNumber.xlsx");
 
         RangeFormat rangeFormat = new RangeFormat();
         rangeFormat.CellName = "F3:F47";
-        
+
         CellFormat cellFormat = new CellFormat();
         cellFormat.CellType = "Number";
         cellFormat.CellTypeFormat = "#,##0";
@@ -298,7 +312,7 @@ class ExcelTest {
 
         RangeFormat rangeFormatHeader = new RangeFormat();
         rangeFormatHeader.CellName = "A2:F2";
-        
+
         FontStyleFormat fontStyleFormat = new FontStyleFormat();
         fontStyleFormat.IsBold = true;
         fontStyleFormat.HorizontalAlignment = "Center";
@@ -335,7 +349,8 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestRangeFormatNumber.xlsx", tmpExcelName);
     }
 
-    public void NumberFormat() {
+    public void NumberFormat()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/TableConvert.xlsx");
         RangeFormat rangeFormat = new RangeFormat();
@@ -354,7 +369,7 @@ class ExcelTest {
         using (var package = ex.Excel_Open(tmpExcelName))
         {
             ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-            
+
             ExcelRange excelRange = worksheet.Cells["F4"];
             ExcelRange excelRange2 = worksheet.Cells["F5"];
         }
@@ -363,10 +378,11 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestTableConvert.xlsx", tmpExcelName);
     }
 
-    public void LoadData() {
+    public void LoadData()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] excelFile = ex.Workbook_Create(new Worksheet[0]);
-        
+
         var myJsonString = File.ReadAllText("JSON/LeadData.json");
 
         DataWriteJSON dataWriteJSON = new DataWriteJSON();
@@ -377,12 +393,13 @@ class ExcelTest {
         dataWriteJSONs[0] = dataWriteJSON;
 
         excelFile = ex.Data_WriteJSON(excelFile, dataWriteJSONs);
-        
+
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestLoadData.xlsx", excelFile);
 
     }
 
-    public void LoadDataMultiSheet() {
+    public void LoadDataMultiSheet()
+    {
         ExcelLibrary ex = new ExcelLibrary();
 
         Worksheet[] ws = new Worksheet[2];
@@ -390,7 +407,7 @@ class ExcelTest {
         ws[1].Name = "Sheet 2";
 
         byte[] excelFile = ex.Workbook_Create(ws);
-        
+
         var myJsonString1 = File.ReadAllText("JSON/LeadData1.json");
 
         DataWriteJSON dataWriteJSON1 = new DataWriteJSON();
@@ -411,15 +428,16 @@ class ExcelTest {
         dataWriteJSONs[1] = dataWriteJSON2;
 
         excelFile = ex.Data_WriteJSON(excelFile, dataWriteJSONs);
-        
+
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestLoadData.xlsx", excelFile);
 
     }
 
-    public void Formula() {
+    public void Formula()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/FormulaDemo.xlsx");
-        
+
         CellFormat cellFormat = new CellFormat();
         cellFormat.CellTypeFormat = "#,##0";
         cellFormat.CellType = "Formula";
@@ -430,7 +448,7 @@ class ExcelTest {
         cellWrite.CellFormat = cellFormat;
 
         CellWrite[] cellWrites = new CellWrite[1];
-        cellWrites[0] = cellWrite;  
+        cellWrites[0] = cellWrite;
 
         tmpExcelName = ex.Cell_Write(tmpExcelName, cellWrites);
 
@@ -451,14 +469,15 @@ class ExcelTest {
         //     tmpExcelName = package.GetAsByteArray();
         // }
 
-        
+
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestFormulaDemo.xlsx", tmpExcelName);
     }
 
-    public void formulaValue2() {
+    public void formulaValue2()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/DemoExcelV.xlsx");
-        
+
         CellFormat cellFormat = new CellFormat();
         cellFormat.CellTypeFormat = "#,##0";
         cellFormat.CellType = "Formula";
@@ -469,7 +488,7 @@ class ExcelTest {
         cellWrite.CellFormat = cellFormat;
 
         CellWrite[] cellWrites = new CellWrite[1];
-        cellWrites[0] = cellWrite;  
+        cellWrites[0] = cellWrite;
 
         //CellCopy cellCopy = new CellCopy();
         tmpExcelName = ex.Cell_Write(tmpExcelName, cellWrites);
@@ -483,27 +502,32 @@ class ExcelTest {
     }
 
 
-    public void FindCell() {
+    public void FindCell()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/FormulaDemo.xlsx");
 
         CellFindResult[] cellFindResults = ex.Cell_FindByValue(tmpExcelName, "Jawbone", true);
 
-        foreach(CellFindResult cellFindResult in cellFindResults) {
+        foreach (CellFindResult cellFindResult in cellFindResults)
+        {
             Console.WriteLine(cellFindResult.CellName + " with Value: " + cellFindResult.CellValue);
         }
     }
 
-    public void AllWorksheets(byte[] tmpExcelName) {
+    public void AllWorksheets(byte[] tmpExcelName)
+    {
         ExcelLibrary ex = new ExcelLibrary();
-        Worksheet[] worksheets = ex.Workbook_GetWorksheet(tmpExcelName);
-        foreach(Worksheet worksheet in worksheets) {
+        WorksheetProperties[] worksheets = ex.Workbook_GetWorksheet(tmpExcelName);
+        foreach (WorksheetProperties worksheet in worksheets)
+        {
             Console.WriteLine("Index: " + worksheet.Index + " with Name: " + worksheet.Name);
         }
         Console.WriteLine("============================");
     }
 
-    public void WorksheetTest() {
+    public void WorksheetTest()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/NewExcelDemo.xlsx");
         AllWorksheets(tmpExcelName);
@@ -516,7 +540,8 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestNewExcelDemo.xlsx", tmpExcelName);
     }
 
-    public void ExcelProp() {
+    public void ExcelProp()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/NewExcelDemo.xlsx");
 
@@ -538,14 +563,16 @@ class ExcelTest {
         File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestNewExcelDemo.xlsx", tmpExcelName);
     }
 
-    public void CellRead() {
+    public void CellRead()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("TestExcel.xlsx");
 
         Console.WriteLine(ex.Cell_Read(tmpExcelName, 0, 0, "", "Sheet 5"));
     }
 
-    public void ListDataValidation() {
+    public void ListDataValidation()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] excelFile = ex.Workbook_Create(new Worksheet[0]);
 
@@ -580,10 +607,11 @@ class ExcelTest {
 
         excelFile = ex.Data_Validation_List(excelFile, cellDataValidation, dataValidationListItem);
 
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestListValidationDemo.xlsx", excelFile); 
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestListValidationDemo.xlsx", excelFile);
     }
 
-    public void ListDataValidation2() {
+    public void ListDataValidation2()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/NewExcelDataValidationDemo.xlsx");
 
@@ -611,15 +639,16 @@ class ExcelTest {
         cellWrite.SheetName = "Sheet 2";
 
         CellWrite[] cellWrites = new CellWrite[1];
-        cellWrites[0] = cellWrite; 
-        
+        cellWrites[0] = cellWrite;
+
         tmpExcelName = ex.Cell_Write(tmpExcelName, cellWrites);
 
 
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestListValidationDemo2.xlsx", tmpExcelName); 
-    }    
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestListValidationDemo2.xlsx", tmpExcelName);
+    }
 
-    public void ListDataValidation3() {
+    public void ListDataValidation3()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/TestDataValidation.xlsx");
 
@@ -647,16 +676,18 @@ class ExcelTest {
 
         tmpExcelName = ex.Data_Validation_List(tmpExcelName, cellDataValidation, dataValidationListItem);
 
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestDataValidationResult.xlsx", tmpExcelName); 
-    }    
-
-    public byte[] CreateExcel() {
-        ExcelLibrary ex = new ExcelLibrary();
-        byte[] excelFile = ex.Workbook_Create(new Worksheet[0]);
-        return excelFile;        
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestDataValidationResult.xlsx", tmpExcelName);
     }
 
-    public byte[] IntDataValidation(byte[] excelFile) {
+    public byte[] CreateExcel()
+    {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] excelFile = ex.Workbook_Create(new Worksheet[0]);
+        return excelFile;
+    }
+
+    public byte[] IntDataValidation(byte[] excelFile)
+    {
         ExcelLibrary ex = new ExcelLibrary();
 
         DataValidationConfig dataValidationConfigBWT = new DataValidationConfig();
@@ -697,9 +728,10 @@ class ExcelTest {
         excelFile = ex.Data_Validation_Integer(excelFile, cellDataValidationGRT, dataValidationGRT);
 
         return excelFile;
-    }    
+    }
 
-    public byte[] DecDataValidation(byte[] excelFile) {
+    public byte[] DecDataValidation(byte[] excelFile)
+    {
         ExcelLibrary ex = new ExcelLibrary();
 
         DataValidationConfig dataValidationConfigBWT = new DataValidationConfig();
@@ -740,9 +772,10 @@ class ExcelTest {
         excelFile = ex.Data_Validation_Decimal(excelFile, cellDataValidationGRT, dataValidationGRT);
 
         return excelFile;
-    }    
+    }
 
-    public byte[] DTDataValidation(byte[] excelFile) {
+    public byte[] DTDataValidation(byte[] excelFile)
+    {
         ExcelLibrary ex = new ExcelLibrary();
 
         DateTime D1 = DateTime.Now;
@@ -790,19 +823,21 @@ class ExcelTest {
         excelFile = ex.Data_Validation_DateTime(excelFile, cellDataValidationGRT, dataValidationGRT);
 
         return excelFile;
-    }    
+    }
 
-    public void TestDataValidation() {
+    public void TestDataValidation()
+    {
         byte[] excelFile = CreateExcel();
 
         excelFile = IntDataValidation(excelFile);
         excelFile = DecDataValidation(excelFile);
         excelFile = DTDataValidation(excelFile);
 
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestListValidationDemo3.xlsx", excelFile); 
-    }    
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestListValidationDemo3.xlsx", excelFile);
+    }
 
-    public void RangeFormatBDateCNumber() {
+    public void RangeFormatBDateCNumber()
+    {
         byte[] excelFile = CreateExcel();
         ExcelLibrary ex = new ExcelLibrary();
 
@@ -828,11 +863,12 @@ class ExcelTest {
         rangeFormats[1] = rangeFormatNumber;
 
         excelFile = ex.Range_Format(excelFile, rangeFormats);
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestRangeFormat.xlsx", excelFile); 
-    
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestRangeFormat.xlsx", excelFile);
+
     }
 
-    public void CellWrites() {
+    public void CellWrites()
+    {
         byte[] excelFile = CreateExcel();
         ExcelLibrary ex = new ExcelLibrary();
 
@@ -840,30 +876,32 @@ class ExcelTest {
         cellFormat.IsAutoFitColumn = true;
         cellFormat.BackgroundColorHex = "#fff3ae";
 
-        CellWrite[] cellWrites= new CellWrite[20];
+        CellWrite[] cellWrites = new CellWrite[20];
 
         Cell cell = new Cell();
         cell.CellColumn = 1;
         cell.CellRow = 1;
 
-        for(int i = 0; i < 10; i++) {
-            CellWrite cellWrite= new CellWrite();
+        for (int i = 0; i < 10; i++)
+        {
+            CellWrite cellWrite = new CellWrite();
             cellWrite.CellFormat = cellFormat;
-            cellWrite.CellValue = CreateString(rd.Next(10,30));
+            cellWrite.CellValue = CreateString(rd.Next(10, 30));
             cellWrite.Cell = cell;
 
             cellWrites[i] = cellWrite;
 
             cell.CellRow = cell.CellRow + 1;
 
-        } 
+        }
 
         cell.CellColumn = 2;
         cell.CellRow = 1;
 
-        for(int i = 10; i < 20; i++) {
-            CellWrite cellWrite= new CellWrite();
-            cellWrite.CellValue = CreateString(rd.Next(10,30));
+        for (int i = 10; i < 20; i++)
+        {
+            CellWrite cellWrite = new CellWrite();
+            cellWrite.CellValue = CreateString(rd.Next(10, 30));
             cellWrite.Cell = cell;
 
             cellWrites[i] = cellWrite;
@@ -873,20 +911,22 @@ class ExcelTest {
         }
 
         excelFile = ex.Cell_Write(excelFile, cellWrites);
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestCellWriteDemo.xlsx", excelFile); 
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestCellWriteDemo.xlsx", excelFile);
 
     }
 
-    public void ReadVasialis() {
+    public void ReadVasialis()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/MW-302 WG WYKAZU 22309.xlsx");
 
-        Console.WriteLine(ex.Cell_Read(tmpExcelName, 4,1));
+        Console.WriteLine(ex.Cell_Read(tmpExcelName, 4, 1));
 
     }
 
 
-    public void CellWritesRich() {
+    public void CellWritesRich()
+    {
         byte[] excelFile = CreateExcel();
         ExcelLibrary ex = new ExcelLibrary();
 
@@ -911,10 +951,11 @@ class ExcelTest {
         cellWriteRichTexts[0].IsAutoFitColumn = true;
 
         excelFile = ex.Cell_Write_RichText(excelFile, cellWriteRichTexts);
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestCellWriteRichText.xlsx", excelFile);     
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/TestCellWriteRichText.xlsx", excelFile);
     }
 
-    public void CellRange_ReadTest() {
+    public void CellRange_ReadTest()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/ReadExcelDemo.xlsx");
         RangeCellRead[] cellRange_Read = new RangeCellRead[2];
@@ -939,14 +980,16 @@ class ExcelTest {
 
         RangeCellValue[] cellValues = ex.Range_CellRead(tmpExcelName, cellRange_Read);
 
-        foreach (RangeCellValue cellValue in cellValues) {
-            Console.WriteLine("Row: " + cellValue.CellRow + " Col: " + cellValue.CellColumn +" Cell: " + cellValue.CellName + " Value: " + cellValue.Value);
+        foreach (RangeCellValue cellValue in cellValues)
+        {
+            Console.WriteLine("Row: " + cellValue.CellRow + " Col: " + cellValue.CellColumn + " Cell: " + cellValue.CellName + " Value: " + cellValue.Value);
         }
 
 
     }
 
-    public void CellRange_ReadTes2() {
+    public void CellRange_ReadTes2()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/TestRageRead.xlsx");
         RangeCellRead[] cellRange_Read = new RangeCellRead[1];
@@ -964,28 +1007,99 @@ class ExcelTest {
 
         Console.WriteLine("Count: " + cellValues.Length);
 
-        foreach (RangeCellValue cellValue in cellValues) {
-            Console.WriteLine("Row: " + cellValue.CellRow + " Col: " + cellValue.CellColumn +" Cell: " + cellValue.CellName + " Value: " + cellValue.Value);
+        foreach (RangeCellValue cellValue in cellValues)
+        {
+            Console.WriteLine("Row: " + cellValue.CellRow + " Col: " + cellValue.CellColumn + " Cell: " + cellValue.CellName + " Value: " + cellValue.Value);
         }
 
 
     }
 
-    public void MergeExcelTest() {
+    public void MergeExcelTest()
+    {
         ExcelLibrary ex = new ExcelLibrary();
         byte[] M1 = System.IO.File.ReadAllBytes("ExcelTest/Merge1.xlsx");
         byte[] M2 = System.IO.File.ReadAllBytes("ExcelTest/Merge2.xlsx");
         byte[] M3 = System.IO.File.ReadAllBytes("ExcelTest/Merge3.xlsx");
+        byte[] M4 = System.IO.File.ReadAllBytes("ExcelTest/Merge4.xlsx");
+        byte[] M5 = System.IO.File.ReadAllBytes("ExcelTest/Merge5.xlsx");
 
-        ExcelMerge[] excelMerges = new ExcelMerge[3];
+        ExcelMerge[] excelMerges = new ExcelMerge[5];
         excelMerges[0].ExcelBinary = M1;
         excelMerges[1].ExcelBinary = M2;
         excelMerges[2].ExcelBinary = M3;
-        
+        excelMerges[3].ExcelBinary = M4;
+        excelMerges[4].ExcelBinary = M5;
+
         byte[] excelFile = ex.Excel_Merge(excelMerges);
-        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/MergeResult.xlsx", excelFile); 
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/MergeResult.xlsx", excelFile);
     }
 
+    public void GetImagesOver()
+    {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/ExcelWithImages.xlsx");
+        ExcelImages[] excelImages = ex.Image_GetAll_OverCell(tmpExcelName);
+        foreach (ExcelImages img in excelImages)
+        {
+            Console.WriteLine("Name: " + img.ImageName + " Row: " + img.Cell.CellRow + " Col: " + img.Cell.CellColumn + " Sheet Name: " + img.SheetName + " Address: " + img.CellName + " Img Type: " + img.ImageType);
+        }
+    }
+
+    public void GetImagesIn()
+    {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/ExcelWithImages.xlsx");
+        ExcelImages[] excelImages = ex.Image_GetAll_InCell(tmpExcelName);
+        foreach (ExcelImages img in excelImages)
+        {
+            Console.WriteLine("Name: " + img.ImageName + " Row: " + img.Cell.CellRow + " Col: " + img.Cell.CellColumn + " Sheet Name: " + img.SheetName + " Address: " + img.CellName + " Img Type: " + img.ImageType);
+        }
+    }
+
+    public void GetImages()
+    {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/ExcelWithImages.xlsx");
+        ExcelImages excelImages = ex.Image_Get(tmpExcelName, 23, 15, "", "Sheet2");
+        Console.WriteLine("Image Name: " + excelImages.ImageName);
+    }
+
+    public void WorksheetProperties()
+    {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/WSProperties.xlsx");
+        WorksheetProperties worksheetProperties = ex.Worksheet_GetProperties(tmpExcelName, "Sheet1");
+        Console.WriteLine("Name: " + worksheetProperties.Name);
+    }
+
+    public void WorksheetCopy()
+    {
+        ExcelLibrary ex = new ExcelLibrary();
+        byte[] sourceExcelName = System.IO.File.ReadAllBytes("ExcelTest/WSource.xlsx");
+        byte[] destExcelName = System.IO.File.ReadAllBytes("ExcelTest/WDest.xlsx");
+        File.WriteAllBytes($"{Environment.CurrentDirectory}/Result/WResultCopy.xlsx", ex.Worksheet_Copy(sourceExcelName, "Custom2,Sheet1, Sheet3, ", destExcelName));
+    }
+
+
+    public void ConvertAddress()
+    {
+        ExcelLibrary ex = new ExcelLibrary();
+        CellRange cellRange = ex.Range_FromAddress("A1");
+        Console.WriteLine("Start Col: " + cellRange.StartCellColumn + " Start Row: " + cellRange.StartCellRow + " End Col: " + cellRange.EndCellColumn + " End Row: " + cellRange.EndCellRow);
+        cellRange = ex.Range_FromAddress("B2");
+        Console.WriteLine("Start Col: " + cellRange.StartCellColumn + " Start Row: " + cellRange.StartCellRow + " End Col: " + cellRange.EndCellColumn + " End Row: " + cellRange.EndCellRow);
+        cellRange = ex.Range_FromAddress("A1:E10");
+        Console.WriteLine("Start Col: " + cellRange.StartCellColumn + " Start Row: " + cellRange.StartCellRow + " End Col: " + cellRange.EndCellColumn + " End Row: " + cellRange.EndCellRow);
+        cellRange = ex.Range_FromAddress("$A$1:$E$10");
+        Console.WriteLine("Start Col: " + cellRange.StartCellColumn + " Start Row: " + cellRange.StartCellRow + " End Col: " + cellRange.EndCellColumn + " End Row: " + cellRange.EndCellRow);
+        cellRange = ex.Range_FromAddress("'Sheet1'!B29");
+        Console.WriteLine("Start Col: " + cellRange.StartCellColumn + " Start Row: " + cellRange.StartCellRow + " End Col: " + cellRange.EndCellColumn + " End Row: " + cellRange.EndCellRow);
+        cellRange = ex.Range_FromAddress("1:5");
+        Console.WriteLine("Start Col: " + cellRange.StartCellColumn + " Start Row: " + cellRange.StartCellRow + " End Col: " + cellRange.EndCellColumn + " End Row: " + cellRange.EndCellRow);
+        cellRange = ex.Range_FromAddress("1:G");
+        Console.WriteLine("Start Col: " + cellRange.StartCellColumn + " Start Row: " + cellRange.StartCellRow + " End Col: " + cellRange.EndCellColumn + " End Row: " + cellRange.EndCellRow);
+    }
 }
 
 
@@ -1003,7 +1117,14 @@ class Program
         //excelTest.CellRange_ReadTest();
         //excelTest.formulaValue2();
         //excelTest.CellRange_ReadTes2();
-        excelTest.MergeExcelTest();
-        excelTest.RangeFormatBDateCNumber();
+        //excelTest.MergeExcelTest();
+        //excelTest.RangeFormatBDateCNumber();
+        //excelTest.GetImagesIn();
+        //excelTest.GetImagesOver();
+        //excelTest.WorksheetProperties();
+        // excelTest.WorksheetCopy();
+        // excelTest.MergeExcelTest();
+        //excelTest.ConvertAddress();
+        excelTest.GetImages();
     }
 }
