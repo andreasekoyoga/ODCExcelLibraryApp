@@ -1070,7 +1070,7 @@ class ExcelTest
         ExcelLibrary ex = new ExcelLibrary();
         byte[] tmpExcelName = System.IO.File.ReadAllBytes("ExcelTest/WSProperties.xlsx");
         WorksheetProperties worksheetProperties = ex.Worksheet_GetProperties(tmpExcelName, "Sheet1");
-        Console.WriteLine("Name: " + worksheetProperties.Name);
+        Console.WriteLine("Name: " + worksheetProperties.Name + " Index: " + worksheetProperties.Index + " Tab Color A: " + worksheetProperties.TabProperties.ColorA);
     }
 
     public void WorksheetCopy()
@@ -1121,10 +1121,10 @@ class Program
         //excelTest.RangeFormatBDateCNumber();
         //excelTest.GetImagesIn();
         //excelTest.GetImagesOver();
-        //excelTest.WorksheetProperties();
+        excelTest.WorksheetProperties();
         // excelTest.WorksheetCopy();
         // excelTest.MergeExcelTest();
         //excelTest.ConvertAddress();
-        excelTest.GetImages();
+        //excelTest.GetImages();
     }
 }
